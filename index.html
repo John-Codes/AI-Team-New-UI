@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" class="has-navbar-fixed-top has-navbar-fixed-bottom">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
+    <title>Efexzium</title>
+    
+
+    <style>
+        .textarea {
+            field-sizing: content;
+            max-width: 25rem;
+            max-height: 25rem;
+            display: flex;
+            align-items: center; /* Centers items vertically */
+            justify-content: center; /* Centers items horizontally */
+
+           resize: none;
+           border: none;
+           outline: none;
+           box-shadow: none; 
+           overflow: hidden;  /* Hide scrollbar  */
+           height: min-content;
+           min-height: 0.1rem;
+           min-width: 0.5rem; /*makes the buttons get inside the container*/
+           margin: none; /* Remove margin */
+           flex-direction: row; /* Aligns children in a row */
+       
+           
+            
+            
+        }
+        .textarea-container {
+            display: flex;
+            align-items: center; /* Aligns items vertically in the center */
+            justify-content: center; /* Centers items horizontally */
+            border: 5px solid #dbdbdb;
+            border-radius: 20px;
+            padding: 0.5rem;
+            background-color: white;
+            width: 30rem; /* Adjust width as needed */
+            flex-direction: row; /* Aligns children in a row */
+        }
+
+
+        .buttons-container {
+            display: flex; /* Aligns buttons horizontally */
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: 0.5rem; /* Space between buttons */
+        }
+
+
+            
+            
+        .custom-margin {
+        margin-left: 10px; /* Adjust as needed */
+        margin-right: 10px; /* Adjust as needed */
+        }
+        .no-border {
+            border: none!important;
+            outline: none!important;
+        }
+        button:active, button:focus {
+        outline: none!important;
+        box-shadow: none!important;
+        }
+        .card-footer {
+        border-top: none!important;
+        }
+        .centered-input {
+             display: flex;
+             justify-content: center;
+             width: 100%;
+         }
+        .centered-input-container {
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               width: 100%;
+               padding: 10px 0;
+               
+           }
+        .input-with-icons {
+               display: flex;
+               align-items: center;
+               width: 100%;
+               max-width: 600px;
+               margin: auto;
+               border: 3px solid #000000; /* Match Bulma's default input border */
+               border-radius: 20px; /* Rounded corners */
+               overflow: hidden; /* Ensures rounded corners encompass the whole component */
+               background-color: #fff; /* Background color matching Bulma's input */
+           }
+        .input-with-icons input {
+               flex-grow: 1;
+               border: none;
+               box-shadow: none;
+               outline: none;
+               padding-left: 5px;
+               transition: background-color 0.3s; /* Smooth transition for focus effect */
+           }
+   
+        .icon-button {
+               background-color: transparent;
+               border: none;
+               cursor: pointer;
+               padding: 0 10px;
+           }
+      
+            .input-with-icons input {
+            flex-grow: 1;
+            border: none; /* Removes input border */
+            outline: none; /* Removes focus outline */
+            box-shadow: none; /* Removes box-shadow */
+            padding-left: 5px;
+            background-color: inherit; /* Matches container background */
+        }
+         
+        .input-with-icons input:focus {
+            outline: none; /* Removes the outline */
+            box-shadow: none; /* Removes any box-shadow */
+            border: none; /* Ensures no border appears */
+        }
+        .card {
+        border-radius: 20px; /* Adjusts the roundness of the corners */
+        }
+      
+
+        
+
+    </style>
+</head>
+<body>
+
+<!-- Fixed Menu and Title -->
+<nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand" >
+        <!-- Hamburger Menu on the Left -->
+        <a role="button" class="navbar-burger ml-0 burger" aria-label="menu" aria-expanded="false" onclick="toggleMenu()">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        
+     <!-- Brand Title -->
+        <span class="navbar-item">
+            efexzium =$=
+        </span>
+    </div>
+
+    <!-- Navigation Menu Items -->
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item">Home</a>
+            <a class="navbar-item">Documentation</a>
+            <a class="navbar-item">Examples</a>
+        </div>
+    </div>
+</nav>
+
+
+<!-- End of Fixed Menu and Title -->
+
+
+
+
+
+<!-- Main Content -->
+<div class="container px-4" style="padding-top: 60px; padding-bottom: 50px; ">
+    <!-- List of Messages -->
+    <div class="columns is-multiline">
+        <div class="column is-full">
+            <div class="card">
+                <div class="card-content mb-3 ">
+                    <h2 class="title is-4">Message Title</h2>
+                    <p>This is a message.</p>
+                    <footer class="card-footer">
+                        <div style="display: flex; align-items: center;">
+                            <!-- Clipboard Icon -->
+                            <button class="button is-small no-border no-outline mr-2">
+                                <span class="icon is-small">
+                                    <i class="fas fa-clipboard"></i>
+                                </span>
+                            </button>
+                            <!-- Like Icon -->
+                            <button class="button is-small no-border no-outline mr-2">
+                                <span class="icon is-small">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </span>
+                            </button>
+                            <!-- Dislike Icon -->
+                            <button class="button is-small no-border no-outline">
+                                <span class="icon is-small">
+                                    <i class="fas fa-thumbs-down"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Fixed Footer with Auto-Growing Textarea and Buttons -->
+<nav class="navbar is-fixed-bottom" >
+    <div class="container px-4 centered-input-container" >
+        <div class="field" >
+            <div class="textarea-container" >
+                <!-- oninput="autoResize(this)" -->
+
+                <textarea class="textarea"  placeholder="Type a message..." oninput="autoResize(this)" rows="1" ></textarea>
+                <div class="buttons-container">
+                    <!-- Upload Icon Button -->
+                    <button class="icon-button">
+                        <i class="fas fa-upload"></i>
+                    </button>
+                    <!-- Send Message Icon Button -->
+                    <button class="icon-button">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</nav>
+
+<script>
+
+function toggleMenu() {
+    var navbar = document.getElementById('navbarBasicExample');
+    navbar.classList.toggle('is-active');    
+}
+
+function autoResize(textarea) {
+    const measureDiv = document.querySelector('.textarea-measure');
+    measureDiv.innerText = textarea.value + '\n'; // Add content to the measure div
+    textarea.style.height = 'auto'; // Reset height to auto
+    textarea.style.height = measureDiv.offsetHeight + 'px'; // Set textarea height to match measure div
+}
+
+// Initialize textarea height on page load
+window.onload = function() {
+    const textarea = document.querySelector('.textarea');
+    autoResize(textarea); // Adjust based on content
+    textarea.addEventListener('input', () => autoResize(textarea)); // Adjust on input
+};
+
+</script>
+
+</body>
+</html>
