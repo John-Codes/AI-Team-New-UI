@@ -5,11 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
-
+ <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <title>Efexzium</title>
     
 
     <style>
+
+
+
+
+   /* Loading Animation Styles */
+   .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000; /* Ensure it is on top of other content */
+            display: none; /* Hidden by default */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
         .textarea {
             field-sizing: content;
             max-width: 25rem;
@@ -160,8 +184,8 @@
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
             <a class="navbar-item">Home</a>
-            <a class="navbar-item">Documentation</a>
-            <a class="navbar-item">Examples</a>
+            <!-- <a class="navbar-item">Documentation</a>
+            <a class="navbar-item">Examples</a> -->
         </div>
     </div>
 </nav>
@@ -174,9 +198,9 @@
 
 
 <!-- Main Content -->
-<div class="container px-4" style="padding-top: 60px; padding-bottom: 50px; ">
+<div class="container px-4" style="padding-top: 60px; padding-bottom: 50px; min-width: 3rem ">
     <!-- List of Messages -->
-    <div class="columns is-multiline">
+    <div id="messageList" class="columns is-multiline">
         <div class="column is-full">
             
             
@@ -184,8 +208,12 @@
                     <!-- message -->
                     <div class="card">
                         <div class="card-content mb-3 ">
-                            <h2 class="title is-4">Message Title</h2>
-                            <p>This is a message.</p>
+                            <h2 class="title is-4">This is a scaled down version of efexzium. </h2>
+                            <p>If you want the full powerful AI chat PDF solutions please contact john@efexzium.com we will repply 24/7 we are here to help you. </p>
+                            <br>
+                            <p><b>John@efexzium.com</b> - <i>CEO of efexzium</i></p>
+                            <br>
+                         
                             <footer class="card-footer">
                                 <div style="display: flex; align-items: center;">
                                     <!-- Clipboard Icon -->
@@ -216,23 +244,23 @@
     </div>
 </div>
 
-
+<div class="loader" id="loadingSpinner"></div>
 
 <!-- Fixed Footer with Auto-Growing Textarea and Buttons -->
-<nav class="navbar is-fixed-bottom" style="background-color: transparent;" >
+<nav class="navbar is-fixed-bottom" style="background-color: transparent; min-width: 3rem" >
     <div class="container px-4 centered-input-container" >
         <div class="field" >
             <div class="textarea-container" >
                 <!-- oninput="autoResize(this)" -->
 
-                <textarea class="textarea"  placeholder="Type a message..." oninput="autoResize(this)" rows="1" ></textarea>
+                <textarea class="textarea"  id="messageInput" placeholder="Type a message..." oninput="autoResize(this)" rows="1" style="min-width: 2rem; min-height: 1rem;" ></textarea>
                 <div class="buttons-container">
                     <!-- Upload Icon Button -->
                     <button class="icon-button">
                         <i class="fas fa-upload"></i>
                     </button>
                     <!-- Send Message Icon Button -->
-                    <button class="icon-button">
+                    <button id="sendMessageButton" class="icon-button">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
@@ -242,7 +270,81 @@
     </div>
 </nav>
 
+
 <script>
+let messages = []; // Array to hold messages
+function showLoader() {
+            document.getElementById('loadingSpinner').style.display = 'block';
+        }
+
+        function hideLoader() {
+            document.getElementById('loadingSpinner').style.display = 'none';
+        }
+// Add event listener to the Send Message button
+document.getElementById('sendMessageButton').addEventListener('click', sendMessage);
+
+function renderMessages() {
+    const messageList = document.getElementById('messageList');
+    messageList.innerHTML = ''; // Clear existing messages
+    messages.forEach((msg) => {
+        const messageCard = document.createElement('div');
+        messageCard.className = 'column is-full';
+        messageCard.innerHTML = `
+            <div class="card">
+                <div class="card-content mb-3">
+                    <h2 class="title is-4">${msg.role === 'user' ? 'You' : 'AI'}</h2>
+                    <div class="content">${marked.parse(msg.content)}</div>
+                </div>
+            </div>
+        `;
+        messageList.appendChild(messageCard);
+    });
+}
+
+function sendMessage() {
+    var textarea = document.getElementById('messageInput');
+    var messageContent = textarea.value;
+    showLoader(); // Show loader
+    // Add user message to messages array
+    messages.push({ role: 'user', content: messageContent });
+    renderMessages(); // Update the message list UI
+
+    var xhr = new XMLHttpRequest();
+    var url = "https://openrouter.ai/api/v1/chat/completions";
+
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Authorization", "Bearer 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");
+    xhr.setRequestHeader("HTTP-Referer", "YOUR_SITE_URL"); // Optional
+    xhr.setRequestHeader("X-Title", "YOUR_SITE_NAME"); // Optional
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    var data = JSON.stringify({
+        "model": "meta-llama/llama-3.1-8b-instruct:free",
+        "messages": messages // Send all messages
+    });
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) { // Request is complete
+            if (xhr.status === 200) { // Success
+                const response = JSON.parse(xhr.responseText);
+                const aiMessage = response.choices[0].message.content; // Adjust this based on your API response
+
+                // Add AI response to messages array
+                messages.push({ role: 'ai', content: aiMessage });
+                renderMessages(); // Update the message list UI
+
+                textarea.value = ''; // Clear the textarea after sending
+                autoResize(textarea); // Adjust textarea height
+            } else {
+                console.error("Error:", xhr.status, xhr.statusText);
+            }
+        }
+        hideLoader(); // Hide loader when done
+    };
+
+    xhr.send(data);
+}
+
 
 function toggleMenu() {
     var navbar = document.getElementById('navbarBasicExample');
